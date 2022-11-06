@@ -1,14 +1,13 @@
 import { useQuery } from '@apollo/client'
 import { Button } from '@components/UIElements/Button'
-import DropMenu from '@components/UIElements/DropMenu'
 import { NOTIFICATION_COUNT_QUERY } from '@gql/queries'
 import useAppStore from '@lib/store'
 import usePersistStore from '@lib/store/persist'
 import { LENS_CUSTOM_FILTERS } from '@utils/constants'
+import { NOTIFICATIONS } from '@utils/url-path'
+import Link from 'next/link'
 import React, { useEffect } from 'react'
 import { CgBell } from 'react-icons/cg'
-
-import Notifications from '.'
 
 const NotificationTrigger = () => {
   const setHasNewNotification = useAppStore(
@@ -52,26 +51,18 @@ const NotificationTrigger = () => {
   if (!selectedChannelId) return null
 
   return (
-    <DropMenu
-      trigger={
-        <Button
-          variant="outlined"
-          className="!p-[9px] !hidden md:!block"
-          onClick={() => onClickNotification()}
-        >
-          <CgBell className="text-lg" />
-          {hasNewNotification && (
-            <span className="absolute flex w-1.5 h-1.5 bg-red-500 rounded-full -top-1 -right-1" />
-          )}
-        </Button>
-      }
-    >
-      <div className="p-1 max-h-96 md:block hidden mt-1.5 w-80 overflow-x-hidden overflow-y-auto border shadow-xl border-gray-100 rounded-lg dark:border-gray-800 bg-secondary">
-        <div className="flex flex-col p-2 text-sm transition duration-150 ease-in-out rounded-lg">
-          <Notifications />
-        </div>
-      </div>
-    </DropMenu>
+    <Link href={NOTIFICATIONS}>
+      <Button
+        variant="outlined"
+        className="!p-[9px] !hidden md:!block"
+        onClick={() => onClickNotification()}
+      >
+        <CgBell className="text-lg" />
+        {hasNewNotification && (
+          <span className="absolute flex w-1.5 h-1.5 bg-red-500 rounded-full -top-1 -right-1" />
+        )}
+      </Button>
+    </Link>
   )
 }
 
